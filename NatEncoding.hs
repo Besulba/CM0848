@@ -92,73 +92,74 @@ app2 f x = App $ App f x
 app3 ∷ Expr → Expr → Expr → Expr → Expr
 app3 f x y = App $ App (App f x) y
 
-x, y, f ∷ Expr
-x = Var "x"
-y = Var "y"
-f = Var "f"
+x¹, y¹, f¹ ∷ Expr
+x¹ = Var "x"
+y¹ = Var "y"
+f¹ = Var "f"
 
 true ∷ Expr
-true = Lam "x" $ Lam "y" x
+true = Lam "x" $ Lam "y" x¹
 
 false ∷ Expr
-false = Lam "x" $ Lam "y" y
+false = Lam "x" $ Lam "y" y¹
 
 iff ∷ Expr
-iff = Lam "f" $ Lam "x" $ Lam "y" $ app2 f x y
+iff = Lam "f" $ Lam "x" $ Lam "y" $ app2 f¹ x¹ y¹
 
 testIf ∷ Expr → Expr → Expr → Expr
 testIf = app3 iff
 
 pair ∷ Expr
-pair = Lam "x" $ Lam "y" $ Lam "f" $ app2 f x y
+pair = Lam "x" $ Lam "y" $ Lam "f" $ app2 f¹ x¹ y¹
 
 zero ∷ Expr
 zero = Lam "x" $ Var "x"
 
 isZero ∷ Expr
-isZero = Lam "x" $ App x true
+isZero = Lam "x" $ App x¹ true
 
 tZero ∷ Expr → Expr
 tZero = App isZero
 
 succ' ∷ Expr
-succ' = Lam "x" $ Lam "y" $ app2 y false x
+succ' = Lam "x" $ Lam "y" $ app2 y¹ false x¹
 
 pred' ∷ Expr
-pred' = Lam "x" $ App x false
+pred' = Lam "x" $ App x¹ false
 
 yComb ∷ Expr
 yComb = Lam "f" $ App (Lam "x" fxx) (Lam "x" fxx)
   where
     fxx ∷ Expr
-    fxx = App f $ App x x
+    fxx = App f¹ $ App x¹ x¹
 
 applyY ∷ Expr → Expr
 applyY = App yComb
 
-n, m, a ∷ Expr
-n = Var "n"
-m = Var "m"
-a = Var "a"
+n¹, m¹, a¹ ∷ Expr
+n¹ = Var "n"
+m¹ = Var "m"
+a¹ = Var "a"
 
 eN ∷ Natural → Expr
 eN 0  = zero
 eN nn = app2 pair false $ eN (nn-1)
 
 eAdd ∷ Expr
-eAdd = applyY $ Lam "a" $ Lam "n" $ Lam "m" $ testIf (tZero n) m suma
-  where
-    -- n+m = succ((n-1) + m)
-    suma ∷ Expr
-    suma = App succ' $ app2 (Var "a") (predW n) m
+eAdd = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
+  testIf (tZero n¹) m¹ suma
+    where
+      -- n+m = succ((n-1) + m)
+      suma ∷ Expr
+      suma = App succ' $ app2 a¹ (predW n¹) m¹
 
 eMult ∷ Expr
 eMult = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
-  testIf (tZero n) zero $ testIf (tZero m) zero multi
-  where
-    -- multi = ((n-1) * m) + m
-    multi :: Expr
-    multi = addW (app2 a (predW n) m) m
+  testIf (tZero n¹) zero $ testIf (tZero m¹) zero multi
+    where
+      -- multi = ((n-1) * m) + m
+      multi ∷ Expr
+      multi = addW (app2 a¹ (predW n¹) m¹) m
 
 predW ∷ Expr → Expr
 predW = App pred'
@@ -184,18 +185,5 @@ tests = do
   quickCheck propAdd
   quickCheck propMult
 
--- uno     = nf $ App succ' zero
--- dos     = nf $ App succ' uno
--- tres    = nf $ App succ' dos
--- cuatro  = nf $ App succ' tres
-
--- tZero     = betaEq zero (eN 0)
--- tUno      = betaEq uno (eN 1)
--- tDos      = betaEq dos (eN 2)
--- tTres     = betaEq tres (eN 3)
--- tCuatro   = betaEq cuatro (eN 4)
-
--- mytests = [tZero ,tUno ,tDos ,tTres ,tCuatro]
-
 main ∷ IO ()
-main = tests
+main = return ()
