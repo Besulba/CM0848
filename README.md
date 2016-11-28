@@ -101,7 +101,7 @@ True
 The module is using QuickCheck testing, and you can check with
 
 ```
-$ runghc NatEnconding.hs
+$ runghc NatEncoding.hs
 ```
 
 or calling the function `tests`.

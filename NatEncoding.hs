@@ -230,4 +230,4 @@ tests = do
   quickCheck propMult
 
 main ∷ IO ()
-main = return ()
+main = tests
