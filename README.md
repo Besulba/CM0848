@@ -9,7 +9,7 @@ definition of natural numbers using *pairings*
 (See more details in Barendregt, 2000)). We adapted a version
 of the simple λ-calculus exposed by Augustsson in his
 [blog](http://augustss.blogspot.com.co/2007_10_01_archive.html)
-using the datatype for λ-terms, the β-rule, and α-rule.
+using the data type for λ-terms, the β-rule, and α-rule.
 
 The encoding is as follows.
 

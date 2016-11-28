@@ -10,7 +10,7 @@ Stability   : stable
 Portability : POSIX
 
 NatEnconding is a Haskell program intends to provide an alternative
-enconding for the natural numbers.
+encoding for the natural numbers.
 -}
 
 {-# LANGUAGE UnicodeSyntax #-}
@@ -108,7 +108,7 @@ alphaEq _ _                   = False
 app2 ∷ Expr → Expr → Expr → Expr
 app2 f x = App $ App f x
 
--- |The 'app3' function peforms three applications.
+-- |The 'app3' function performs three applications.
 app3 ∷ Expr → Expr → Expr → Expr → Expr
 app3 f x y = App $ App (App f x) y
 
