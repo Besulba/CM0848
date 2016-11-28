@@ -81,3 +81,7 @@ multW ≡ Y (λanm [COMPLETE YA])
 
 Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
 Revisited edition, Mar. 2000 (Chap. 3).
+
+### Acknowledgment
+
+Lennart Augustsson's for the λ-terms and the betaEq function are defined blog Simpler, Easier!
