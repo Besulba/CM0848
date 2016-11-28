@@ -6,9 +6,10 @@ NatEnconding is a Haskell program intends to provide
 an alternative enconding for the natural numbers
 into the λ-calculus. This enconding follows an inductive
 definition of natural numbers using *pairings*
-(See more details in Ref.~Barendregt, 2000).
-The type of λ-terms as the β-rule, α-rule were adapted from
-the blog's version of Augustsson in its blog.
+(See more details in Barendregt, 2000)). We adapted a version
+of the simple λ-calculus exposed by Augustsson in his
+[blog](http://augustss.blogspot.com.co/2007_10_01_archive.html)
+using the datatype for λ-terms, the β-rule, and α-rule.
 
 The enconding is as follows.
 
