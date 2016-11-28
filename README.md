@@ -1,17 +1,17 @@
-# NatEnconding.hs
+# NatEncoding.hs
 
 Camilo Rodriguez and Jonathan Prieto-Cubides
 
 NatEnconding is a Haskell program intends to provide
-an alternative enconding for the natural numbers
-into the λ-calculus. This enconding follows an inductive
+an alternative encoding for the natural numbers
+into the λ-calculus. This encoding follows an inductive
 definition of natural numbers using *pairings*
 (See more details in Barendregt, 2000)). We adapted a version
 of the simple λ-calculus exposed by Augustsson in his
 [blog](http://augustss.blogspot.com.co/2007_10_01_archive.html)
 using the datatype for λ-terms, the β-rule, and α-rule.
 
-The enconding is as follows.
+The encoding is as follows.
 
 For all x ∈ ℕ,
 
@@ -60,7 +60,7 @@ Load the module as usual in Haskell, and then try the following.
 In the following examples, `nf` is the function that normalizes an
 λ-expression.
 
-* Obtaining an enconding of a natural number
+* Obtaining an encoding of a natural number
 
 ```Haskell
 > let x = Var "x"
