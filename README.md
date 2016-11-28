@@ -3,48 +3,61 @@
 Camilo Rodriguez and Jonathan Prieto-Cubides
 
 NatEnconding is a Haskell program intends to provide
-an alternative enconding for the natural numbers.
-This enconding follows an inductive definition of
-natural numbers using *pairing*. The enconding is as
-follows.
+an alternative enconding for the natural numbers
+into the λ-calculus. This enconding follows an inductive
+definition of natural numbers using *pairings*
+(See more details in Ref.~Barendregt, 2000).
+The type of λ-terms as the β-rule, α-rule were adapted from
+the blog's version of Augustsson in its blog.
+
+The enconding is as follows.
+
+For all x ∈ ℕ,
 
 ```
     [0] := λx.x
     [n] := [false,[n]]
 ```
 
-where
+where `false := λxy.y`.
+
+Other λ-terms used in the implementation were:
 
 ```
-    true  := λxy.x
-    false := λxy.y
-    succ  := λx.[false,[x]]
-    pred  := λx.xfalse
-    Zero  := λx.xtrue
+    true    := λxy.x
+    succ    := λx.[false,[x]]
+    pred    := λx.xfalse
+    isZero  := λx.xtrue
 ```
 
 ### Definitions
 
-* Predecessor function
-
-```Haskell
-pred ≡ Y (λanm. [COMPLETE YA])
-```
+In this section we show the definition of the arithmetic operators.
 
 * Adding function
 
-```Haskell
-addW ≡ Y (λanm [COMPLETE YA])
+```
+addW ≡ Y (λanm.if (isZero n) then m else (succ (a (pred n) m)))
 ```
 
 * Multiplying function
 
 ```Haskell
-multW ≡ Y (λanm [COMPLETE YA])
+multiW ≡ Y (λanm.
+    if (isZero n) then zero
+    else (if (isZero m) then zero else (addW m (a (pred n) m)))
+```
+* Predecessor function
+
+```Haskell
+predW ≡ λx.pred x
 ```
 
-
 ### Usage
+
+Load the module as usual in Haskell, and then try the following.
+In the following examples, `nf` is the function that normalizes an
+λ-expression.
 
 * Obtaining an enconding of a natural number
 
@@ -78,11 +91,16 @@ multW ≡ Y (λanm [COMPLETE YA])
 -- >>> nf $ multW (eN 1) (eN 1)
 -- 1 * 1 = 1 = λf.f λx.λy.y λx.x
 ```
+
 ### Testing
 
-```Haskell
-    [aqui el ejemplo]
+The module is using QuickCheck testing, and you can check with
+
 ```
+$ runghc NatEnconding.hs
+```
+
+or calling the function `tests`.
 
 
 ### References
@@ -90,6 +108,7 @@ multW ≡ Y (λanm [COMPLETE YA])
 Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
 Revisited edition, Mar. 2000 (Chap. 3).
 
+<<<<<<< HEAD
 ### Acknowledgment
 
-Lennart Augustsson's, An Implementation of a Dependently Typed Lambda Calculus, (2007). 
+Augustsson, Lennart. An Implementation of a Dependently Typed Lambda Calculus *Simpler, Easier!*. Blog version, Oct. 2007.
