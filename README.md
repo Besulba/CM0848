@@ -49,26 +49,34 @@ multW ≡ Y (λanm [COMPLETE YA])
 * Obtaining an enconding of a natural number
 
 ```Haskell
-    0 = λx.x 
-    nf $ eN 0
-    1 = λf.f λx.λy.y λx.x
-    nf $ eN 1
-    2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
-    nf $ eN 2
+-- | Three examples are given below:
+--
+--  >>> nf $ eN 0
+--  0 = λx.x 
+--
+--  >>> nf $ eN 1
+--  1 = λf.f λx.λy.y λx.x
+--
+--  >>> nf $ eN 2
+--  2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
 ```
 
 * Adding two natural numbers
 
 ```Haskell
-    0 + 2 = 2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
-    nf $ addW (eN 0) (eN 2)
+-- | One examples are given below:
+--
+-- >>> nf $ addW (eN 0) (eN 2)
+-- 0 + 2 = 2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
 ```
 
 * Multiplying two natural numbers
 
 ```Haskell
-    1 * 1 = 1 = λf.f λx.λy.y λx.x
-    nf $ multW (eN 1) (eN 1)
+-- | One examples are given below:
+--
+-- >>> nf $ multW (eN 1) (eN 1)
+-- 1 * 1 = 1 = λf.f λx.λy.y λx.x
 ```
 ### Testing
 
@@ -84,4 +92,4 @@ Revisited edition, Mar. 2000 (Chap. 3).
 
 ### Acknowledgment
 
-Lennart Augustsson's for the λ-terms and the betaEq function are defined blog Simpler, Easier!
+Lennart Augustsson's, An Implementation of a Dependently Typed Lambda Calculus, (2007). 
