@@ -108,7 +108,6 @@ or calling the function `tests`.
 Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
 Revisited edition, Mar. 2000 (Chap. 3).
 
-<<<<<<< HEAD
 ### Acknowledgment
 
 Augustsson, Lennart. An Implementation of a Dependently Typed Lambda Calculus *Simpler, Easier!*. Blog version, Oct. 2007.
