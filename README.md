@@ -90,7 +90,7 @@ True
 * Multiplying two natural numbers
 
 ```Haskell
-nf $ multW (eN 2) (eN 2)
+>nf $ multW (eN 2) (eN 2)
 λy.y λx.λy.y λy.y λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λx.x
 > nf $ eN 4
 λf.f λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λx.x
