@@ -3,78 +3,100 @@
 Camilo Rodriguez and Jonathan Prieto-Cubides
 
 NatEnconding is a Haskell program intends to provide
-an alternative enconding for the natural numbers.
-This enconding follows an inductive definition of
-natural numbers using *pairing*. The enconding is as
-follows.
+an alternative enconding for the natural numbers
+into the λ-calculus. This enconding follows an inductive
+definition of natural numbers using *pairings*
+(See more details in Ref.~Barendregt, 2000).
+The type of λ-terms as the β-rule, α-rule were adapted from
+the blog's version of Augustsson in its blog.
+
+The enconding is as follows.
+
+For all x ∈ ℕ,
 
 ```
     [0] := λx.x
     [n] := [false,[n]]
 ```
 
-where
+where `false := λxy.y`.
+
+Other λ-terms used in the implementation were:
 
 ```
-    true  := λxy.x
-    false := λxy.y
-    succ  := λx.[false,[x]]
-    pred  := λx.xfalse
-    Zero  := λx.xtrue
+    true    := λxy.x
+    succ    := λx.[false,[x]]
+    pred    := λx.xfalse
+    isZero  := λx.xtrue
 ```
 
 ### Definitions
 
-* Predecessor function
-
-```Haskell
-pred ≡ Y (λanm. [COMPLETE YA])
-```
+In this section we show the definition of the arithmetic operators.
 
 * Adding function
 
-```Haskell
-addW ≡ Y (λanm [COMPLETE YA])
+```
+addW ≡ Y (λanm.if (isZero n) then m else (succ (a (pred n) m)))
 ```
 
 * Multiplying function
 
 ```Haskell
-multW ≡ Y (λanm [COMPLETE YA])
+multiW ≡ Y (λanm.
+    if (isZero n) then zero
+    else (if (isZero m) then zero else (addW m (a (pred n) m)))
+```
+* Predecessor function
+
+```Haskell
+predW ≡ λx.pred x
 ```
 
-
 ### Usage
+
+Load the module as usual in Haskell, and then, try the following.
 
 * Obtaining an enconding of a natural number
 
 ```Haskell
-    0 = λx.x 
-    nf $ eN 0
-    1 = λf.f λx.λy.y λx.x
-    nf $ eN 1
-    2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
-    nf $ eN 2
+> let x = Var "x"
+> let zero = Lam x x
+> let one = App succ' zero
+> let two = App succ' uno
+> eN 0
+λx.x
+> eN 1
+λx.λy.λf.f x y λx.λy.y λx.x
+> nf $ eN 1
+λf.f λx.λy.y λx.x
+> betaEq (eN 1) uno
+True
 ```
 
 * Adding two natural numbers
 
 ```Haskell
-    0 + 2 = 2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
-    nf $ addW (eN 0) (eN 2)
+> nf $ addW (eN 0) (eN 2)
+λf.f λx.λy.y λf.f λx.λy.y λx.x
 ```
 
 * Multiplying two natural numbers
 
 ```Haskell
-    1 * 1 = 1 = λf.f λx.λy.y λx.x
-    nf $ multW (eN 1) (eN 1)
+nf $ multW (eN 2) (eN 2)
+λy.y λx.λy.y λy.y λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λx.x
 ```
+
 ### Testing
 
-```Haskell
-    [aqui el ejemplo]
+The module is using QuickCheck testing, and you can check with
+
 ```
+   $ runghc NatEnconding.hs
+```
+
+or calling the function `tests`.
 
 
 ### References
@@ -82,6 +104,4 @@ multW ≡ Y (λanm [COMPLETE YA])
 Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
 Revisited edition, Mar. 2000 (Chap. 3).
 
-### Acknowledgment
-
-Lennart Augustsson's for the λ-terms and the betaEq function are defined blog Simpler, Easier!
+Augustsson, Lennart. *Simpler, Easier!*. Blog version, Oct. 2007.
