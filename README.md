@@ -109,7 +109,7 @@ or calling the function `tests`.
 
 ### References
 
-Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
-Revisited edition, Mar. 2000 (Chap. 3).
+* Barendregt, Henk and Barendsen, Erik (2000). *Introduction to Lambda Calculus*.
+Mar. 2000 (Chap. 3).
 
-Augustsson, Lennart. *Simpler, Easier!*. Blog version, Oct. 2007.
+* Augustsson, Lennart. *Simpler, Easier!*. Blog version, Oct. 2007.
