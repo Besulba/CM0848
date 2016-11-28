@@ -159,7 +159,7 @@ eMult = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
     where
       -- multi = ((n-1) * m) + m
       multi ∷ Expr
-      multi = addW (app2 a¹ (predW n¹) m¹) m
+      multi = addW (app2 a¹ (predW n¹) m¹) m¹
 
 predW ∷ Expr → Expr
 predW = App pred'

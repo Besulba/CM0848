@@ -49,19 +49,26 @@ multW ≡ Y (λanm [COMPLETE YA])
 * Obtaining an enconding of a natural number
 
 ```Haskell
-    [aqui el ejemplo]
+    0 = λx.x 
+    nf $ eN 0
+    1 = λf.f λx.λy.y λx.x
+    nf $ eN 1
+    2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
+    nf $ eN 2
 ```
 
 * Adding two natural numbers
 
 ```Haskell
-    [aqui el ejemplo]
+    0 + 2 = 2 = λf.f λx.λy.y λf.f λx.λy.y λx.x
+    nf $ addW (eN 0) (eN 2)
 ```
 
 * Multiplying two natural numbers
 
 ```Haskell
-    [aqui el ejemplo]
+    1 * 1 = 1 = λf.f λx.λy.y λx.x
+    nf $ multW (eN 1) (eN 1)
 ```
 ### Testing
 
