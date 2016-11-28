@@ -6,7 +6,7 @@
 {-|
 Module      : NatEncoding
 Description : alternative encoding for the natural numbers
-Copyright   : (c) Lennart Augustsson's, 2007
+Copyright   : (c) Camilo Rodriguez and Jonathan Prieto-Cubide, 2016
 License     : GPL-3
 Maintainer  : Camilo Rodriguez and Jonathan Prieto-Cubide
 Stability   : stable
@@ -27,11 +27,11 @@ import           Test.QuickCheck (Property, quickCheck, (==>))
 type Sym = String
 
 data Expr 
-  -- | The 'Var Sym' represent the normal form in ´v`|variable´'` 
+  -- | The 'Var Sym' represents the normal form in ´v`|variable´'` 
   = Var Sym
-  -- | The 'App Expr Expr' represent the normal form in ´(` λ-term λ-term ´)`
+  -- | The 'App Expr Expr' represents the normal form in ´(` λ-term λ-term ´)`
   | App Expr Expr
-  -- | The 'Lam Sym Expr' represent the normal form in ´(λ` variable λ-term ´)`
+  -- | The 'Lam Sym Expr' represents the normal form in ´(λ` variable λ-term ´)`
   | Lam Sym Expr
   deriving (Eq, Read)
 
@@ -93,78 +93,83 @@ subst v x = sub  -- subst v x b = sub b
         vars ∷ [Sym]
         vars = fvx ++ freeVars e
 
--- |The 'substVar' function is a utility for replace one variable with another
+-- |The 'substVar' function is a utility for replace one variable with another.
 substVar ∷ Sym → Sym → Expr → Expr
 substVar x s' = subst x (Var s')
 
--- |The 'alphaEq' function is for compare couple λ-term are equal
+-- |The 'alphaEq' function is for compare couple λ-term are equal.
 alphaEq ∷ Expr → Expr → Bool
 alphaEq (Var v)   (Var v')    = v == v'
 alphaEq (App f a) (App f' a') = alphaEq f f' && alphaEq a a'
 alphaEq (Lam s e) (Lam s' e') = alphaEq e (substVar s' s e')
 alphaEq _ _                   = False
 
--- |The 'app2' function is for realize two applications in one λ-term
+-- |The 'app2' function is for realize two applications in one λ-term.
 app2 ∷ Expr → Expr → Expr → Expr
 app2 f x = App $ App f x
 
--- |The 'app3' function is for realize three applications in one λ-term
+-- |The 'app3' function is for realize three applications in one λ-term.
 app3 ∷ Expr → Expr → Expr → Expr → Expr
 app3 f x y = App $ App (App f x) y
 
--- |The 'x¹, y¹, f¹' function that returns one variable
+-- |The 'x¹, y¹, f¹' function that returns one variable.
 x¹, y¹, f¹ ∷ Expr
 x¹ = Var "x"
 y¹ = Var "y"
 f¹ = Var "f"
 
--- |The 'true' function that implements the combinator K
+-- |The 'true' function that implements the combinator K.
 true ∷ Expr
 true = Lam "x" $ Lam "y" x¹
 
--- |The 'false' function that implements the combinator K*  
+-- |The 'false' function that implements the combinator K*.  
 false ∷ Expr
 false = Lam "x" $ Lam "y" y¹
 
--- |The 'false' function that implements the combinator if
+-- |The 'false' function that implements the combinator if.
 iff ∷ Expr
 iff = Lam "f" $ Lam "x" $ Lam "y" $ app2 f¹ x¹ y¹
 
--- |The 'testIf' function is for apply iff in app3
+-- |The 'testIf' function applies iff.
 testIf ∷ Expr → Expr → Expr → Expr
 testIf = app3 iff
 
--- |The 'pair' function that implements the combinator pair
+-- |The 'pair' function that implements the combinator pair.
 pair ∷ Expr
 pair = Lam "x" $ Lam "y" $ Lam "f" $ app2 f¹ x¹ y¹
 
--- |The 'zero' function that implements the combinator I
+-- |The 'zero' function that implements the combinator I.
 zero ∷ Expr
 zero = Lam "x" $ Var "x"
 
--- |The 'isZero' function that implements the combinator Zero
+-- |The 'isZero' function that implements the combinator Zero.
 isZero ∷ Expr
 isZero = Lam "x" $ App x¹ true
 
--- |The 'testIf' function is for apply the combinator Zero
+-- |The 'testIf' function is for apply the combinator Zero.
 tZero ∷ Expr → Expr
 tZero = App isZero
 
+-- |The 'succ'' function that implements the combinator S+.
 succ' ∷ Expr
 succ' = Lam "x" $ Lam "y" $ app2 y¹ false x¹
 
+-- |The 'pred'' function that implements the combinator P-.
 pred' ∷ Expr
 pred' = Lam "x" $ App x¹ false
 
+-- |The 'yComb' function that implements the combinator Y.
 yComb ∷ Expr
 yComb = Lam "f" $ App (Lam "x" fxx) (Lam "x" fxx)
   where
     fxx ∷ Expr
     fxx = App f¹ $ App x¹ x¹
 
+-- |The 'applyY' function is for apply the combinator Y.
 applyY ∷ Expr → Expr
 applyY = App yComb
 
+-- |The 'n¹, m¹, a¹' function that returns one variable.
 n¹, m¹, a¹ ∷ Expr
 n¹ = Var "n"
 m¹ = Var "m"
