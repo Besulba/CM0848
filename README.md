@@ -55,7 +55,9 @@ predW ≡ λx.pred x
 
 ### Usage
 
-Load the module as usual in Haskell, and then, try the following.
+Load the module as usual in Haskell, and then try the following.
+In the following examples, `nf` is the function that normalizes an
+λ-expression.
 
 * Obtaining an enconding of a natural number
 
@@ -79,6 +81,9 @@ True
 ```Haskell
 > nf $ addW (eN 0) (eN 2)
 λf.f λx.λy.y λf.f λx.λy.y λx.x
+> nf $ eN 2
+λf.f λx.λy.y λf.f λx.λy.y λx.x
+
 ```
 
 * Multiplying two natural numbers
@@ -86,6 +91,8 @@ True
 ```Haskell
 nf $ multW (eN 2) (eN 2)
 λy.y λx.λy.y λy.y λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λx.x
+> nf $ eN 4
+λf.f λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λf.f λx.λy.y λx.x
 ```
 
 ### Testing
@@ -93,7 +100,7 @@ nf $ multW (eN 2) (eN 2)
 The module is using QuickCheck testing, and you can check with
 
 ```
-   $ runghc NatEnconding.hs
+$ runghc NatEnconding.hs
 ```
 
 or calling the function `tests`.
