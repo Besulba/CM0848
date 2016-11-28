@@ -175,10 +175,12 @@ n¹ = Var "n"
 m¹ = Var "m"
 a¹ = Var "a"
 
+-- |The 'eN' function returns the λ-term associated with the natural number n
 eN ∷ Natural → Expr
 eN 0  = zero
 eN nn = app2 pair false $ eN (nn-1)
 
+-- |The 'eAdd' function addition
 eAdd ∷ Expr
 eAdd = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
   testIf (tZero n¹) m¹ suma
@@ -187,6 +189,7 @@ eAdd = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
       suma ∷ Expr
       suma = App succ' $ app2 a¹ (predW n¹) m¹
 
+-- |The 'eMult' function multiplication
 eMult ∷ Expr
 eMult = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
   testIf (tZero n¹) zero $ testIf (tZero m¹) zero multi
@@ -195,24 +198,31 @@ eMult = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
       multi ∷ Expr
       multi = addW (app2 a¹ (predW n¹) m¹) m¹
 
+-- |The 'predW' function is for apply predecessor
 predW ∷ Expr → Expr
 predW = App pred'
 
+-- |The 'predW' function is for apply addition
 addW ∷ Expr → Expr → Expr
 addW = app2 eAdd
 
+-- |The 'predW' function is for apply multiplication
 multW ∷ Expr → Expr → Expr
 multW = app2 eMult
 
+-- |The 'propPred' function test of predecessor
 propPred ∷ Natural → Property
 propPred n = n > 0 ==> betaEq (predW $ eN n) (eN $ n - 1)
 
+-- |The 'propAdd' function test of addition
 propAdd ∷ Natural → Natural → Bool
 propAdd m n = betaEq (addW (eN m) (eN n)) (eN $ m + n)
 
+-- |The 'propMult' function test of multiplication
 propMult ∷ Natural → Natural → Bool
 propMult m n = betaEq (multW (eN m) (eN n)) (eN $ m * n)
 
+-- |The 'tests' is the function execute tests to valid operations of NatEncoding
 tests ∷ IO ()
 tests = do
   quickCheck propPred
