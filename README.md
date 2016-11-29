@@ -13,11 +13,11 @@ using the data type for λ-terms, the β-rule, and α-rule.
 
 The encoding is as follows.
 
-For all x ∈ ℕ,
+For all n ∈ ℕ,
 
 ```
     [0] := λx.x
-    [n] := [false,[n]]
+    [n+1] := [false,[n]]
 ```
 
 where `false := λxy.y`.
