@@ -3,9 +3,9 @@
 {-|
 Module      : NatEncoding
 Description : alternative encoding for the natural numbers
-Copyright   : (c) Camilo Rodriguez and Jonathan Prieto-Cubides, 2016
+Copyright   : (c) Camilo Rodríguez and Jonathan Prieto-Cubides, 2016
 License     : GPL-3
-Maintainer  : Camilo Rodriguez and Jonathan Prieto-Cubides
+Maintainer  : Camilo Rodríguez and Jonathan Prieto-Cubides
 Stability   : stable
 Portability : POSIX
 
@@ -104,13 +104,13 @@ alphaEq (App f a) (App f' a') = alphaEq f f' && alphaEq a a'
 alphaEq (Lam s e) (Lam s' e') = alphaEq e (substVar s' s e')
 alphaEq _ _                   = False
 
--- |The 'app2' function performs two applications in one λ-term.
-app2 ∷ Expr → Expr → Expr → Expr
-app2 f x = App $ App f x
+-- |The 'app²' function performs two applications in one λ-term.
+app² ∷ Expr → Expr → Expr → Expr
+app²  f x = App $ App f x
 
--- |The 'app3' function performs three applications.
-app3 ∷ Expr → Expr → Expr → Expr → Expr
-app3 f x y = App $ App (App f x) y
+-- |The 'app³' function performs three applications.
+app³ ∷ Expr → Expr → Expr → Expr → Expr
+app³ f x y = App $ App (App f x) y
 
 -- |The 'x¹, y¹, f¹' are handy variables.
 x¹, y¹, f¹ ∷ Expr
@@ -128,15 +128,15 @@ false = Lam "x" $ Lam "y" y¹
 
 -- |The 'false' function is the combinator if-then-else.
 iff ∷ Expr
-iff = Lam "f" $ Lam "x" $ Lam "y" $ app2 f¹ x¹ y¹
+iff = Lam "f" $ Lam "x" $ Lam "y" $ app² f¹ x¹ y¹
 
 -- |The 'testIf' function applies iff.
 testIf ∷ Expr → Expr → Expr → Expr
-testIf = app3 iff
+testIf = app³ iff
 
 -- |The 'pair' function is the combinator pair.
 pair ∷ Expr
-pair = Lam "x" $ Lam "y" $ Lam "f" $ app2 f¹ x¹ y¹
+pair = Lam "x" $ Lam "y" $ Lam "f" $ app² f¹ x¹ y¹
 
 -- |The 'zero' function is the combinator I.
 zero ∷ Expr
@@ -152,7 +152,7 @@ tZero = App isZero
 
 -- |The 'succ'' function is the combinator S+.
 succ' ∷ Expr
-succ' = Lam "x" $ Lam "y" $ app2 y¹ false x¹
+succ' = Lam "x" $ Lam "y" $ app² y¹ false x¹
 
 -- |The 'pred'' function is the combinator P-.
 pred' ∷ Expr
@@ -178,7 +178,7 @@ a¹ = Var "a"
 -- |The 'eN' function returns the λ-term associated with the natural number n.
 eN ∷ Natural → Expr
 eN 0  = zero
-eN nn = app2 pair false $ eN (nn-1)
+eN nn = app² pair false $ eN (nn-1)
 
 -- |The 'eAdd' function addition.
 eAdd ∷ Expr
@@ -187,7 +187,7 @@ eAdd = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
     where
       -- n+m = succ((n-1) + m)
       suma ∷ Expr
-      suma = App succ' $ app2 a¹ (predW n¹) m¹
+      suma = App succ' $ app² a¹ (predW n¹) m¹
 
 -- |The 'eMult' performs the multiplication between two encoded naturals.
 eMult ∷ Expr
@@ -196,7 +196,7 @@ eMult = applyY $ Lam "a" $ Lam "n" $ Lam "m" $
     where
       -- multi = ((n-1) * m) + m
       multi ∷ Expr
-      multi = addW (app2 a¹ (predW n¹) m¹) m¹
+      multi = addW (app² a¹ (predW n¹) m¹) m¹
 
 
 -- The next functions were taken from
@@ -208,11 +208,11 @@ predW = App pred'
 
 -- |The 'predW' function applies addition.
 addW ∷ Expr → Expr → Expr
-addW = app2 eAdd
+addW = app² eAdd
 
 -- |The 'predW' function applies multiplication.
 multW ∷ Expr → Expr → Expr
-multW = app2 eMult
+multW = app² eMult
 
 -- |The 'propPred' function tests the predecessor function.
 propPred ∷ Natural → Property

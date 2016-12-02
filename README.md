@@ -1,6 +1,6 @@
 # NatEncoding.hs
 
-Camilo Rodriguez and Jonathan Prieto-Cubides
+Camilo Rodríguez and Jonathan Prieto-Cubides
 
 NatEnconding is a Haskell program intends to provide
 an alternative encoding for the natural numbers
